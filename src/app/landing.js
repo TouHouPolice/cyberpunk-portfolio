@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
-import $ from "jquery";
+import $ from "jquery"; //not needed
 
 // import { Matter } from "matter-js";
 
