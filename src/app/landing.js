@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Loading, Frame } from "arwes";
 import { Link } from "react-router-dom";
 import $ from "jquery"; //not needed
 
@@ -9,6 +9,8 @@ const Matter = require("matter-js");
 
 const behindGlassCategory = 0x0001;
 const beforeGlassCategory = 0x0002;
+
+const wallThickness = 300;
 
 export default function Landing() {
   var Engine = Matter.Engine,
@@ -21,14 +23,21 @@ export default function Landing() {
     Mouse = Matter.Mouse,
     World = Matter.World,
     Bodies = Matter.Bodies,
+    Body = Matter.Body,
     Constraint = Matter.Constraint,
-    Events = Matter.Events;
+    Events = Matter.Events,
+    Vector = Matter.Vector;
 
   var render;
   var mouse;
 
   var mouseConstraint;
   var runner;
+
+  const maxForce = 0.5;
+
+  var innerWalls = [];
+  var outerWalls = [];
 
   const [clicked, setClicked] = useState(false);
   const [clickPos, setClickPos] = useState([undefined, undefined]);
@@ -37,18 +46,53 @@ export default function Landing() {
   const [constrainedBodies, setConstrainedBodies] = useState([]);
   const [allOut, setAllOut] = useState(false);
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    var loadingInterval;
+
+    if (loading) {
+      loadingInterval = setInterval(() => {
+        setLoading(false);
+      }, 2000);
+    }
+
+    return () => {
+      clearInterval(loadingInterval);
+    };
+  }, [loading]);
+
   // const [constraintPos, setConstraintPos] = useState(undefined)
 
   function initMatter() {
     var newEngine = Engine.create();
     var newWorld = newEngine.world;
 
+    var outerBounds = document
+      .querySelector(".canvas-parent")
+      .getBoundingClientRect();
+    var innerBounds = document
+      .querySelector(".frame-filler")
+      .getBoundingClientRect();
+
+    console.log(outerBounds);
+
+    var outerWidth = outerBounds.width;
+    var outerHeight = outerBounds.height;
+
+    var innerWidth = innerBounds.width;
+    var innerHeight = innerBounds.height;
+
+    var innerY = innerBounds.y;
+    var innerX = innerBounds.x;
+
     render = Render.create({
-      element: $("#canvas-wrapper")[0],
+      element: $(".canvas-parent")[0],
       engine: newEngine,
       options: {
         width: window.innerWidth,
         height: window.innerHeight,
+        wireframes: false,
         background: "transparent"
       },
       textures: {}
@@ -58,6 +102,133 @@ export default function Landing() {
 
     runner = Runner.create();
     Runner.run(runner, newEngine);
+
+    innerWalls.push(
+      Bodies.rectangle(
+        innerX + innerWidth / 2,
+        innerY - wallThickness / 2,
+        outerWidth,
+        wallThickness,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: behindGlassCategory,
+            mask: behindGlassCategory
+          }
+        }
+      )
+    );
+    innerWalls.push(
+      Bodies.rectangle(
+        innerX + innerWidth + wallThickness / 2,
+        innerY + innerHeight / 2,
+        wallThickness,
+        outerHeight,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: behindGlassCategory,
+            mask: behindGlassCategory
+          }
+        }
+      )
+    );
+    innerWalls.push(
+      Bodies.rectangle(
+        innerX + innerWidth / 2,
+        innerY + innerHeight + wallThickness / 2,
+        outerWidth,
+        wallThickness,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: behindGlassCategory,
+            mask: behindGlassCategory
+          }
+        }
+      )
+    );
+    innerWalls.push(
+      Bodies.rectangle(
+        innerX - wallThickness / 2,
+        innerY + innerHeight / 2,
+        wallThickness,
+        outerHeight,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: behindGlassCategory,
+            mask: behindGlassCategory
+          }
+        }
+      )
+    );
+    World.add(newWorld, innerWalls);
+
+    outerWalls.push(
+      Bodies.rectangle(
+        outerWidth / 2,
+        -wallThickness / 2,
+        outerWidth,
+        wallThickness,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: beforeGlassCategory,
+            mask: beforeGlassCategory
+          }
+        }
+      )
+    );
+
+    outerWalls.push(
+      Bodies.rectangle(
+        outerWidth + wallThickness / 2,
+        outerHeight / 2,
+        wallThickness,
+        outerHeight,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: beforeGlassCategory,
+            mask: beforeGlassCategory
+          }
+        }
+      )
+    );
+
+    outerWalls.push(
+      Bodies.rectangle(
+        outerWidth / 2,
+        outerHeight + wallThickness / 2,
+        outerWidth,
+        wallThickness,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: beforeGlassCategory,
+            mask: beforeGlassCategory
+          }
+        }
+      )
+    );
+    outerWalls.push(
+      Bodies.rectangle(
+        -wallThickness / 2,
+        outerHeight / 2,
+        wallThickness,
+        outerHeight,
+        {
+          isStatic: true,
+          collisionFilter: {
+            category: beforeGlassCategory,
+            mask: beforeGlassCategory
+          }
+        }
+      )
+    );
+
+    World.add(newWorld, outerWalls);
 
     // World.add(world, [
     //   Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
@@ -125,7 +296,7 @@ export default function Landing() {
         }
       },
       collisionFilter: {
-        category: beforeGlassCategory
+        category: beforeGlassCategory | behindGlassCategory
       }
     });
 
@@ -137,7 +308,7 @@ export default function Landing() {
   }
 
   function onClickCanvas(e) {
-    if (!clicked) {
+    if (!clicked && !loading) {
       setClicked(true);
       setClickPos([e.clientX, e.clientY]);
       var bodies = Composite.allBodies(world);
@@ -187,8 +358,12 @@ export default function Landing() {
                 World.remove(world, constraints[j]);
                 body.collisionFilter.category = beforeGlassCategory;
                 body.collisionFilter.mask = beforeGlassCategory;
+                var x = maxForce * (Math.random() < 0.5 ? -1 : 1);
+                var y = maxForce * (Math.random() < 0.5 ? -1 : 1);
+
+                Body.applyForce(body, body.position, Vector.create(x, y));
                 bodies.splice(i, 1);
-                console.log("removed");
+
                 break;
               }
             }
@@ -224,13 +399,38 @@ export default function Landing() {
 
   return (
     <>
-      <div
-        onClick={e => {
-          onClickCanvas(e, world);
-        }}
-        id="canvas-wrapper"
-        className="full-view-port"
-      ></div>
+      <div className="loading-anim unclickable">
+        <Loading show={loading} animate full></Loading>
+      </div>
+
+      <div className="landing-container">
+        <div
+          onClick={e => {
+            onClickCanvas(e, world);
+          }}
+          id="canvas-wrapper"
+          className={``}
+        >
+          <div
+            className={`canvas-parent ${
+              loading
+                ? "invisible"
+                : "animate__animated animate__fadeIn animate__delay-05s"
+            }`}
+          ></div>
+          <Frame show={!loading} animate={true} level={0} corners={5}>
+            {anim => (
+              <div
+                className={`frame-filler ${
+                  anim.entered
+                    ? "animate__animated animate__fadeIn animate__delay-05s"
+                    : "invisible"
+                }`}
+              ></div>
+            )}
+          </Frame>
+        </div>
+      </div>
     </>
   );
 }

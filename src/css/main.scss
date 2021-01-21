@@ -1,12 +1,37 @@
+@import "~bootstrap/scss/bootstrap";
+
 @import "~mdb-ui-kit/css/mdb.min.css";
+
+@import "custom";
 
 @import "config";
 
 @import "landing";
+
+@import "profile";
 
 @import "responsive";
 
 .full-view-port {
   width: 100vw;
   height: 100vh;
+}
+
+.loading-anim {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: 250px;
+  height: 250px;
+  z-index: 10;
+}
+
+.puffs-container {
+  @extend .unclickable;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }

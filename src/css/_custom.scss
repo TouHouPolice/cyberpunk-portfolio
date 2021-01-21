@@ -1,0 +1,20 @@
+.clickable {
+  pointer-events: initial;
+  cursor: pointer;
+}
+
+.unclickable {
+  pointer-events: none;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.animate__delay-05s {
+  animation-delay: 0.5s;
+}
+
+.mb-10px {
+  margin-bottom: 10px !important;
+}
