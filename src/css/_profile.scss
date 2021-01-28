@@ -56,4 +56,27 @@
       background-color: rgba($color: #99b2ce, $alpha: 0.5);
     }
   }
+
+  .avatar {
+    img {
+      @include media-xl {
+        width: auto !important;
+        height: 300px;
+      }
+
+      @include media-xxl {
+        width: auto !important;
+        height: 400px;
+      }
+    }
+  }
+
+  .bio-row {
+    @include media-xl {
+      height: 300px;
+    }
+    @include media-xxl {
+      height: 400px;
+    }
+  }
 }

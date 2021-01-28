@@ -7,7 +7,8 @@ import {
   Heading,
   Frame,
   Logo,
-  List
+  List,
+  Image
 } from "arwes";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -16,6 +17,10 @@ import Collapse from "react-bootstrap/Collapse";
 
 import ListHeader from "./components/list_header";
 import ListItem from "./components/list_item";
+
+import { avatar } from "../assets/images";
+
+import DetailTable from "./components/bio/detail_table";
 
 export default function Profile(props) {
   const [loading, setLoading] = useState(false);
@@ -60,8 +65,8 @@ export default function Profile(props) {
             </Col>
           </Row>
 
-          <Row className="flex-grow-1">
-            <Col className="mt-3 ml-3 mb-4" lg={2} xs={4}>
+          <Row className=" mt-3 ">
+            <Col className="ml-3 mb-4" lg={2} xs={4}>
               <Frame show={!loading} animate={true} level={0} corners={3}>
                 {anim => (
                   <section className="navbar-container">
@@ -91,6 +96,88 @@ export default function Profile(props) {
                   </section>
                 )}
               </Frame>
+            </Col>
+            <Col className="flex-nowrap">
+              <Row>
+                <Col md="auto" className="">
+                  <Frame
+                    className="mr-lg-0 mr-3"
+                    show={!loading}
+                    animate={true}
+                    level={0}
+                    corners={3}
+                  >
+                    {anim => (
+                      <Image
+                        className="avatar mb-0"
+                        animate={true}
+                        show={anim.entered}
+                        resources={avatar}
+                      ></Image>
+                    )}
+                  </Frame>
+                </Col>
+                <Col className="mr-3">
+                  <DetailTable show={!loading}></DetailTable>
+                </Col>
+              </Row>
+              <Row className="pr-3 pt-3 pb-3">
+                <Col xs={12}>
+                  <Frame
+                    className=""
+                    show={!loading}
+                    animate={true}
+                    level={0}
+                    corners={3}
+                  >
+                    {anim => (
+                      <div className="p-3">
+                        <h3>
+                          <Words
+                            className="font-weight-bold"
+                            animate
+                            show={anim.entered}
+                          >
+                            Introduction:
+                          </Words>
+                        </h3>
+                        <p>
+                          <Words animate show={anim.entered}>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Accusamus, amet cupiditate laboriosam sunt
+                            libero aliquam, consequatur alias ducimus adipisci
+                            nesciunt odit? Odio tenetur et itaque suscipit atque
+                            officiis debitis qui. Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit. Accusamus, amet
+                            cupiditate laboriosam sunt libero aliquam,
+                            consequatur alias ducimus adipisci nesciunt odit?
+                            Odio tenetur et itaque suscipit atque officiis
+                            debitis qui. Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Accusamus, amet cupiditate
+                            laboriosam sunt libero aliquam, consequatur alias
+                            ducimus adipisci nesciunt odit? Odio tenetur et
+                            itaque suscipit atque officiis debitis qui. Lorem
+                            ipsum dolor sit amet, consectetur adipisicing elit.
+                            Accusamus, amet cupiditate laboriosam sunt libero
+                            aliquam, consequatur alias ducimus adipisci nesciunt
+                            odit? Odio tenetur et itaque suscipit atque officiis
+                            debitis qui. Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Accusamus, amet cupiditate
+                            laboriosam sunt libero aliquam, consequatur alias
+                            ducimus adipisci nesciunt odit? Odio tenetur et
+                            itaque suscipit atque officiis debitis qui. Lorem
+                            ipsum dolor sit amet, consectetur adipisicing elit.
+                            Accusamus, amet cupiditate laboriosam sunt libero
+                            aliquam, consequatur alias ducimus adipisci nesciunt
+                            odit? Odio tenetur et itaque suscipit atque officiis
+                            debitis qui.
+                          </Words>
+                        </p>
+                      </div>
+                    )}
+                  </Frame>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Container>
