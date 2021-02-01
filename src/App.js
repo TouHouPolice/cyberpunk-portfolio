@@ -58,9 +58,20 @@ const mySounds = {
   }
 };
 
+const myTheme = {
+  color: {
+    secondary: {
+      base: "#e5004d",
+      dark: "#b7003d",
+      light: "#ed155e"
+    }
+  }
+};
+
+console.log(createTheme(myTheme));
 function App() {
   return (
-    <ThemeProvider theme={createTheme()}>
+    <ThemeProvider theme={createTheme(myTheme)}>
       <SoundsProvider sounds={createSounds(mySounds)}>
         <Arwes>
           <div className="App">
@@ -69,7 +80,7 @@ function App() {
                 <Route exact path="/">
                   <Landing></Landing>
                 </Route>
-                <Route exact path="/profile">
+                <Route path="/profile">
                   <Profile></Profile>
                 </Route>
               </Switch>
