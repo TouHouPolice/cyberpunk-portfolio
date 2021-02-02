@@ -108,9 +108,58 @@
     font-weight: bold;
     text-shadow: 0px 0px 3px #26dafd;
   }
+
+  .project-container {
+    .top-gap {
+      margin-top: 100px;
+    }
+
+    .project-name {
+      @extend .company-name;
+    }
+    .vid-player {
+      width: 100%;
+      height: 600px;
+    }
+
+    .carousel {
+      .thumbs-wrapper {
+        margin-top: 15px;
+        margin-bottom: 5px !important;
+        .thumbs {
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+
+    .link-icon-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      @extend .clickable;
+
+      .icon,
+      .text {
+        transition: color 0.3s;
+      }
+      .text {
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        .icon,
+        .text {
+          color: #b7003d;
+        }
+      }
+    }
+  }
 }
 
 .cyber-red-glow {
   color: rgba($color: $cyber-red, $alpha: 0.9) !important;
-  text-shadow: 0px 0px 8px #e5004d;
+  text-shadow: 0px 0px 4px #e5004d;
 }

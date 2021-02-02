@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import {
   Loading,
   Words,
@@ -24,6 +24,7 @@ import Sidebar from "./components/sidebar";
 
 import Bio from "./components/bio";
 import Experiences from "./components/experiences";
+import MyProject from "./components/my_project";
 
 export default function Profile(props) {
   const [loading, setLoading] = useState(false);
@@ -50,27 +51,33 @@ export default function Profile(props) {
       {loading ? (
         <></>
       ) : (
-        <Container fluid className="profile-container">
-          <TopHeader show={!loading}></TopHeader>
+        <Router basename="/profile">
+          <Container fluid className="profile-container">
+            <TopHeader show={!loading}></TopHeader>
 
-          <Row className=" mt-3 ">
-            <Col className="ml-3 mb-4" lg={2} xs={4}>
-              <Sidebar show={!loading}></Sidebar>
-            </Col>
+            <Row className=" mt-3">
+              <Col className="ml-3 mb-4" lg={2} md={4} sm={6} xs={11}>
+                <Sidebar show={!loading}></Sidebar>
+              </Col>
 
-            <Col className="flex-nowrap">
-              <Switch>
-                <Route exact path="/profile/bio">
-                  <Bio show={!loading}></Bio>
-                </Route>
+              <Col className="flex-nowrap">
+                <Switch>
+                  <Route exact path="/overview">
+                    <Bio show={!loading}></Bio>
+                  </Route>
 
-                <Route exact path="/profile/experiences">
-                  <Experiences show={!loading}></Experiences>
-                </Route>
-              </Switch>
-            </Col>
-          </Row>
-        </Container>
+                  <Route exact path="/experiences">
+                    <Experiences show={!loading}></Experiences>
+                  </Route>
+
+                  <Route path="/project/:id">
+                    <MyProject show={!loading}></MyProject>
+                  </Route>
+                </Switch>
+              </Col>
+            </Row>
+          </Container>
+        </Router>
       )}
     </>
   );

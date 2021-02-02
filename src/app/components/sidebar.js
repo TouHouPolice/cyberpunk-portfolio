@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Frame, List } from "arwes";
+import { Frame, List, Link } from "arwes";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -18,11 +18,11 @@ export default function Sidebar(props) {
         {anim => (
           <section className="navbar-container">
             <List node="dl">
-              <ListHeader text="Overview"></ListHeader>
+              <ListHeader path="/overview" text="Overview"></ListHeader>
             </List>
 
             <List node="dl">
-              <ListHeader text="Experiences"></ListHeader>
+              <ListHeader path="/experiences" text="Experiences"></ListHeader>
             </List>
 
             <List node="dl">
