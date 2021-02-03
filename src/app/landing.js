@@ -3,6 +3,25 @@ import { Loading, Frame } from "arwes";
 import { Link } from "react-router-dom";
 import $ from "jquery"; //not needed
 
+import {
+  red_a,
+  red_c,
+  red_d,
+  red_e,
+  red_i,
+  red_n,
+  red_s,
+  green_a,
+  green_c,
+  green_d,
+  green_e,
+  green_g,
+  green_n,
+  green_r,
+  green_s,
+  green_t
+} from "../assets/images";
+
 // import { Matter } from "matter-js";
 
 const Matter = require("matter-js");
@@ -11,6 +30,18 @@ const behindGlassCategory = 0x0001;
 const beforeGlassCategory = 0x0002;
 
 const wallThickness = 300;
+
+var letterScale = 1;
+var letterRadius = 15;
+
+const redWords = [
+  [red_a, red_c, red_c, red_e, red_s, red_s],
+  [red_d, red_n, red_i, red_e, red_d]
+];
+const greenWords = [
+  [green_a, green_c, green_c, green_e, green_s, green_s],
+  [green_g, green_r, green_a, green_n, green_t, green_e, green_d]
+];
 
 export default function Landing() {
   var Engine = Matter.Engine,
@@ -39,6 +70,8 @@ export default function Landing() {
   var innerWalls = [];
   var outerWalls = [];
 
+  const showWalls = false;
+
   const [clicked, setClicked] = useState(false);
   const [clickPos, setClickPos] = useState([undefined, undefined]);
   const [world, setWorld] = useState(undefined);
@@ -48,13 +81,19 @@ export default function Landing() {
 
   const [loading, setLoading] = useState(true);
 
+  const [redBodies, setRedBodies] = useState([]);
+
+  const [greenBodies, setGreenBodies] = useState([]);
+  const [smashable, setSmashable] = useState(false);
+
   useEffect(() => {
+    const watingTime = 500;
     var loadingInterval;
 
     if (loading) {
       loadingInterval = setInterval(() => {
         setLoading(false);
-      }, 2000);
+      }, watingTime);
     }
 
     return () => {
@@ -114,6 +153,9 @@ export default function Landing() {
           collisionFilter: {
             category: behindGlassCategory,
             mask: behindGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -129,6 +171,9 @@ export default function Landing() {
           collisionFilter: {
             category: behindGlassCategory,
             mask: behindGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -144,6 +189,9 @@ export default function Landing() {
           collisionFilter: {
             category: behindGlassCategory,
             mask: behindGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -159,6 +207,9 @@ export default function Landing() {
           collisionFilter: {
             category: behindGlassCategory,
             mask: behindGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -176,6 +227,9 @@ export default function Landing() {
           collisionFilter: {
             category: beforeGlassCategory,
             mask: beforeGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -192,6 +246,9 @@ export default function Landing() {
           collisionFilter: {
             category: beforeGlassCategory,
             mask: beforeGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -208,6 +265,9 @@ export default function Landing() {
           collisionFilter: {
             category: beforeGlassCategory,
             mask: beforeGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -223,6 +283,9 @@ export default function Landing() {
           collisionFilter: {
             category: beforeGlassCategory,
             mask: beforeGlassCategory
+          },
+          render: {
+            opacity: showWalls ? 1 : 0
           }
         }
       )
@@ -236,6 +299,16 @@ export default function Landing() {
     //   Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
     //   Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
     // ]);
+    async function spawnWords(words, setBodies, setSmashable = undefined) {
+      var bodies = [];
+
+      for (var i = 0; i < words.length; i++) {
+        for (var j = 0; j < words[i]; j++) {
+          var letterBody = Bodies.circle();
+        }
+      }
+    }
+
     var stack = Composites.stack(50, 120, 11, 5, 0, 0, function(x, y) {
       switch (Math.round(Common.random(0, 1))) {
         case 0:

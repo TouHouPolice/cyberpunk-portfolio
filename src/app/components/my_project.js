@@ -43,7 +43,7 @@ export default function MyProject(props) {
     <Row className="mb-4 project-container">
       <Col>
         <Frame
-          className="mr-3 ml-3 p-3"
+          className="mr-2 ml-3 p-3"
           show={show}
           animate={true}
           level={0}

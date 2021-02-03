@@ -23,3 +23,22 @@ export const tcktl_11 = require("../static/images/profile/projects/tcktl/11.JPG"
 export const tcktl_12 = require("../static/images/profile/projects/tcktl/12.JPG");
 export const tcktl_13 = require("../static/images/profile/projects/tcktl/13.JPG");
 export const tcktl_14 = require("../static/images/profile/projects/tcktl/14.JPG");
+
+//landing
+export const red_a = require("../static/images/landing/letters/red_a.svg");
+export const red_c = require("../static/images/landing/letters/red_c.svg");
+export const red_d = require("../static/images/landing/letters/red_d.svg");
+export const red_e = require("../static/images/landing/letters/red_e.svg");
+export const red_i = require("../static/images/landing/letters/red_i.svg");
+export const red_n = require("../static/images/landing/letters/red_n.svg");
+export const red_s = require("../static/images/landing/letters/red_s.svg");
+
+export const green_a = require("../static/images/landing/letters/green_a.svg");
+export const green_c = require("../static/images/landing/letters/green_c.svg");
+export const green_d = require("../static/images/landing/letters/green_d.svg");
+export const green_e = require("../static/images/landing/letters/green_e.svg");
+export const green_g = require("../static/images/landing/letters/green_g.svg");
+export const green_n = require("../static/images/landing/letters/green_n.svg");
+export const green_r = require("../static/images/landing/letters/green_r.svg");
+export const green_s = require("../static/images/landing/letters/green_s.svg");
+export const green_t = require("../static/images/landing/letters/green_t.svg");

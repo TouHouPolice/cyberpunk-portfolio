@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Line, Highlight } from "arwes";
+import { Line, Highlight, Words } from "arwes";
 
-export default function ListHeader(props) {
-  const { text, state, setState, hasLine, path } = props;
+export default function ListItem(props) {
+  const { text, select, setSelect, hasLine, path, index } = props;
 
   return (
     <>
-      <Highlight>
-        <Link className="unstyled-link" to={path}>
-          {" "}
-          <dd className={`list-item ${hasLine ? "list-item__bl mb-10px" : ""}`}>
+      <Highlight className="mt-4">
+        <Link
+          onClick={() => {
+            setSelect(index);
+          }}
+          className="unstyled-link"
+          to={path}
+        >
+          <li
+            className={`list-item ${select === index ? "selected" : ""} ${
+              hasLine ? " list-item__bl mb-10px" : ""
+            }`}
+          >
             {text}
-          </dd>
+          </li>
         </Link>
       </Highlight>
 

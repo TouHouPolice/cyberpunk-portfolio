@@ -55,12 +55,12 @@ export default function Profile(props) {
           <Container fluid className="profile-container">
             <TopHeader show={!loading}></TopHeader>
 
-            <Row className=" mt-3">
-              <Col className="ml-3 mb-4" lg={2} md={4} sm={6} xs={11}>
+            <Row className=" flex-lg-nowrap overflow-visible mt-1">
+              <Col className="pt-3 mb-4" lg={3} md={4} sm={6} xs={11}>
                 <Sidebar show={!loading}></Sidebar>
               </Col>
 
-              <Col className="flex-nowrap">
+              <Col className="flex-nowrap overflow-hidden pt-3">
                 <Switch>
                   <Route exact path="/overview">
                     <Bio show={!loading}></Bio>
