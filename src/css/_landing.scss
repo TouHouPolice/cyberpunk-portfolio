@@ -3,6 +3,7 @@
   height: 100vh;
   position: relative;
   background: transparent;
+  overflow: hidden;
 
   #canvas-wrapper {
     position: relative;
@@ -44,5 +45,69 @@
         // background: transparent !important;
       }
     }
+  }
+
+  .screen-frame {
+    background-color: rgba($color: #26dafd, $alpha: 0.05);
+  }
+
+  .screen-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    overflow: hidden;
+
+    img.screen {
+      min-width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    img.hole {
+      position: absolute;
+      width: 400px;
+      @include media-md {
+        width: 500px;
+      }
+      @include media-xl {
+        width: 700px;
+      }
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .hammer-btn-wrapper {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+
+    span {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+  }
+
+  .enter-btn-wrapper {
+    @extend .hammer-btn-wrapper;
+  }
+
+  // img.hammer {
+  //   position: absolute;
+  //   pointer-events: none;
+  //   width: 200px;
+  //   top: 0;
+  //   left: 0;
+  // }
+
+  &.hammer {
+    cursor: url("../static/images/landing/hammer_small.png"), pointer;
   }
 }

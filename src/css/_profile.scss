@@ -15,6 +15,14 @@
     align-items: center;
   }
 
+  .social-media-icon {
+    color: #26dafd;
+    transition: color 0.3s;
+    &:hover {
+      color: #d81354;
+    }
+  }
+
   .navbar-container {
     position: relative;
     padding: 15px 20px 0px 0px;

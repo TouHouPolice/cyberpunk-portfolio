@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Loading, Frame } from "arwes";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Loading, Frame, Button as SFButton, Words } from "arwes";
+import { Link, Redirect } from "react-router-dom";
 import $ from "jquery"; //not needed
+
+import { sleep } from "./utils";
+
+import { typing, glass_breaking, machine_broken, hit } from "../assets/sounds";
 
 import {
   red_a,
@@ -19,7 +23,10 @@ import {
   green_n,
   green_r,
   green_s,
-  green_t
+  green_t,
+  hole_png,
+  screen_png,
+  hammer_png
 } from "../assets/images";
 
 // import { Matter } from "matter-js";
@@ -72,19 +79,43 @@ export default function Landing() {
 
   const showWalls = false;
 
-  const [clicked, setClicked] = useState(false);
   const [clickPos, setClickPos] = useState([undefined, undefined]);
   const [world, setWorld] = useState(undefined);
   const [engine, setEngine] = useState(undefined);
   const [constrainedBodies, setConstrainedBodies] = useState([]);
-  const [allOut, setAllOut] = useState(false);
+  const [spawnReady, setSpawnReady] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
   const [redBodies, setRedBodies] = useState([]);
-
   const [greenBodies, setGreenBodies] = useState([]);
   const [smashable, setSmashable] = useState(false);
+  const [holdingHammer, setHoldingHammer] = useState(false);
+  const [glassBroken, setGlassBroken] = useState(false);
+
+  const [showRed, setShowRed] = useState(false);
+  const [showGreen, setShowGreen] = useState(false);
+
+  const [holePos, setHolePos] = useState([0, 0]);
+
+  const [noOfEjected, setNoOfEjected] = useState(0);
+  const noOfEjectedRef = useRef({});
+  noOfEjectedRef.current = noOfEjected;
+
+  const [toProfile, setToProfile] = useState(false);
+
+  const [currentHitIndex, setCurrentHitIndex] = useState(0);
+  const currentHitIndexRef = useRef({});
+  currentHitIndexRef.current = currentHitIndex;
+  var hitAudios = [];
+
+  for (var i = 0; i < 10; i++) {
+    hitAudios.push(
+      <audio autoPlay={false} className="hidden-audio hit-sound">
+        <source src={hit}></source>
+      </audio>
+    );
+  }
 
   useEffect(() => {
     const watingTime = 500;
@@ -96,10 +127,30 @@ export default function Landing() {
       }, watingTime);
     }
 
+    if (!loading) {
+      var brokenAudio = document.querySelector(".machine-broken-sound");
+      brokenAudio.volume = 0.1;
+
+      var glassAudio = document.querySelector(".glass-breaking-sound");
+      glassAudio.volume = 0.5;
+
+      var hitAudios = document.querySelectorAll(".hit-sound");
+
+      for (var i = 0; i < hitAudios.length; i++) {
+        hitAudios[i].volume = 0.3;
+      }
+    }
+
     return () => {
       clearInterval(loadingInterval);
     };
   }, [loading]);
+
+  useEffect(() => {
+    if (showRed) {
+      spawnWords(world, redWords, setRedBodies, setSmashable, true);
+    }
+  }, [showRed]);
 
   // const [constraintPos, setConstraintPos] = useState(undefined)
 
@@ -293,70 +344,6 @@ export default function Landing() {
 
     World.add(newWorld, outerWalls);
 
-    // World.add(world, [
-    //   Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
-    //   Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true }),
-    //   Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
-    //   Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
-    // ]);
-    async function spawnWords(words, setBodies, setSmashable = undefined) {
-      var bodies = [];
-
-      for (var i = 0; i < words.length; i++) {
-        for (var j = 0; j < words[i]; j++) {
-          var letterBody = Bodies.circle();
-        }
-      }
-    }
-
-    var stack = Composites.stack(50, 120, 11, 5, 0, 0, function(x, y) {
-      switch (Math.round(Common.random(0, 1))) {
-        case 0:
-          if (Common.random() < 0.8) {
-            return Bodies.rectangle(
-              x,
-              y,
-              Common.random(20, 50),
-              Common.random(20, 50),
-              {
-                collisionFilter: {
-                  category: behindGlassCategory,
-                  mask: behindGlassCategory
-                }
-              }
-            );
-          } else {
-            return Bodies.rectangle(
-              x,
-              y,
-              Common.random(80, 120),
-              Common.random(20, 30),
-              {
-                collisionFilter: {
-                  category: behindGlassCategory,
-                  mask: behindGlassCategory
-                }
-              }
-            );
-          }
-        case 1:
-          return Bodies.polygon(
-            x,
-            y,
-            Math.round(Common.random(1, 8)),
-            Common.random(20, 50),
-            {
-              collisionFilter: {
-                category: behindGlassCategory,
-                mask: behindGlassCategory
-              }
-            }
-          );
-      }
-    });
-
-    World.add(newWorld, stack);
-
     newEngine.world.gravity.y = 0;
 
     mouse = Mouse.create(render.canvas);
@@ -378,11 +365,104 @@ export default function Landing() {
     render.mouse = mouse;
     setWorld(newWorld);
     setEngine(newEngine);
+    setSpawnReady(true);
   }
 
-  function onClickCanvas(e) {
-    if (!clicked && !loading) {
-      setClicked(true);
+  async function spawnWords(
+    world,
+    words,
+    setBodies,
+    setSmashable = undefined,
+    wait
+  ) {
+    var bodies = [];
+    const bounds = document
+      .querySelector(".frame-filler")
+      .getBoundingClientRect();
+    const frameWidth = bounds.width;
+    const frameHeight = bounds.height;
+
+    console.log(bounds);
+    var letterRadius = 32;
+    var letterGap = 10;
+    var lineGap = 48;
+    var scale = 1;
+
+    if (frameWidth < 1000) {
+      scale = 0.75;
+    } else if (frameWidth < 500) {
+      scale = 0.5;
+    }
+
+    letterRadius *= scale;
+    letterGap = letterRadius * 0.5;
+    lineGap = 5 * letterRadius;
+
+    var currentX = 0;
+    var currentY = 0;
+
+    if (wait) {
+      await sleep(500);
+    }
+
+    for (var i = 0; i < words.length; i++) {
+      var totalLength =
+        words[i].length * 2 * letterRadius + (words[i].length - 2) * letterGap;
+      currentX = bounds.left + (frameWidth - totalLength) / 2;
+      currentY = window.innerHeight / 2 - lineGap * 0.5 + i * lineGap;
+
+      console.log(bounds.left);
+      console.log(frameWidth);
+      console.log(totalLength / 2);
+
+      for (var j = 0; j < words[i].length; j++) {
+        // console.log(currentX);
+        var letterBody = Bodies.circle(currentX, currentY, letterRadius, {
+          friction: 0.01,
+          restitution: 0.5,
+          collisionFilter: {
+            category: behindGlassCategory,
+            mask: behindGlassCategory
+          },
+          render: {
+            sprite: {
+              texture: words[i][j],
+              xScale: scale,
+              yScale: scale
+            }
+          }
+        });
+        World.add(world, letterBody);
+        bodies.push(letterBody);
+        currentX += 2 * letterRadius + letterGap;
+
+        var audio = document.querySelector(".typing-sound");
+        audio.currentTime = 0;
+        audio.play();
+
+        await sleep(100);
+      }
+    }
+
+    setBodies(bodies);
+
+    if (setSmashable) {
+      setTimeout(() => {
+        setSmashable(true);
+      }, 500);
+    }
+    return Promise.resolve();
+  }
+
+  function onClickScreen(e) {
+    if (holdingHammer) {
+      const frameBounds = e.target.getBoundingClientRect();
+      const holeX = e.clientX - frameBounds.left;
+      const holeY = e.clientY - frameBounds.top;
+
+      setHolePos([holeX, holeY]);
+
+      setGlassBroken(true);
       setClickPos([e.clientX, e.clientY]);
       var bodies = Composite.allBodies(world);
       setConstrainedBodies(bodies);
@@ -402,6 +482,10 @@ export default function Landing() {
 
         World.add(world, constraint);
       }
+      setHoldingHammer(false);
+      setSmashable(false);
+      document.querySelector(".glass-breaking-sound").play();
+      document.querySelector(".machine-broken-sound").play();
     }
   }
 
@@ -437,6 +521,8 @@ export default function Landing() {
                 Body.applyForce(body, body.position, Vector.create(x, y));
                 bodies.splice(i, 1);
 
+                setNoOfEjected(noOfEjectedRef.current + 1);
+
                 break;
               }
             }
@@ -444,13 +530,19 @@ export default function Landing() {
         }
       }
     }
+    setConstrainedBodies(bodies);
+  }
 
-    if (Composite.allConstraints(world).length <= 1) {
-      console.log("true");
-      setConstrainedBodies([]);
-      Events.off(engine, "beforeUpdate", checkReachHole);
-    } else {
-      setConstrainedBodies(bodies);
+  function playHitSound() {
+    const audios = document.querySelectorAll(".hit-sound");
+
+    if (audios) {
+      const targetAudio = audios[currentHitIndexRef.current % 10];
+      if (targetAudio) {
+        targetAudio.currentTime = 0;
+        targetAudio.play();
+        setCurrentHitIndex(currentHitIndexRef.current + 1);
+      }
     }
   }
 
@@ -458,17 +550,48 @@ export default function Landing() {
     if (engine === undefined) {
       initMatter();
     }
-
-    return () => {};
+    if (engine) {
+      Events.on(engine, "collisionStart", playHitSound);
+    }
   }, [engine]);
 
   useEffect(() => {
-    if (clicked) {
+    if (glassBroken) {
       Events.on(engine, "beforeUpdate", checkReachHole);
     }
+  }, [glassBroken]);
 
-    return () => {};
-  }, [clicked]);
+  useEffect(() => {
+    const totalLetters = redWords[0].length + redWords[1].length;
+    console.log("total: " + totalLetters);
+    console.log("current: " + noOfEjected);
+
+    if (noOfEjected >= totalLetters) {
+      setConstrainedBodies([]);
+      Events.off(engine, "beforeUpdate", checkReachHole);
+
+      setShowGreen(true);
+    }
+  }, [noOfEjected]);
+
+  useEffect(() => {
+    var timeout;
+    if (showGreen) {
+      spawnWords(world, greenWords, setGreenBodies, false, 1000).then(() => {
+        timeout = setTimeout(() => {
+          setToProfile(true);
+        }, 1000);
+      });
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [showGreen]);
+
+  if (toProfile) {
+    // setToProfile(false);
+    return <Redirect to="/profile/overview"></Redirect>;
+  }
 
   return (
     <>
@@ -476,22 +599,17 @@ export default function Landing() {
         <Loading show={loading} animate full></Loading>
       </div>
 
-      <div className="landing-container">
-        <div
-          onClick={e => {
-            onClickCanvas(e, world);
-          }}
-          id="canvas-wrapper"
-          className={``}
-        >
-          <div
-            className={`canvas-parent ${
-              loading
-                ? "invisible"
-                : "animate__animated animate__fadeIn animate__delay-05s"
-            }`}
-          ></div>
-          <Frame show={!loading} animate={true} level={0} corners={5}>
+      <div className={`landing-container ${holdingHammer ? "hammer" : ""}`}>
+        <div id="canvas-wrapper">
+          <div className={`canvas-parent `}></div>
+          <Frame
+            className="z-index-6 screen-frame unclickable"
+            show={!loading}
+            animate={true}
+            level={0}
+            corners={5}
+            noBackground={true}
+          >
             {anim => (
               <div
                 className={`frame-filler ${
@@ -499,10 +617,85 @@ export default function Landing() {
                     ? "animate__animated animate__fadeIn animate__delay-05s"
                     : "invisible"
                 }`}
-              ></div>
+                style={{
+                  pointerEvents: holdingHammer ? "initial" : "none"
+                }}
+                onClick={e => {
+                  onClickScreen(e, world);
+                }}
+              >
+                <div className="screen-wrapper">
+                  <img className="screen" alt="screen" src={screen_png}></img>
+                  <img
+                    style={{
+                      opacity: glassBroken ? "1" : "0",
+                      left: `${holePos[0]}px`,
+                      top: `${holePos[1]}px`
+                    }}
+                    className="hole"
+                    alt="hole"
+                    src={hole_png}
+                  ></img>
+                </div>
+              </div>
             )}
           </Frame>
         </div>
+
+        <div className="hammer-btn-wrapper">
+          <SFButton
+            onClick={() => {
+              setHoldingHammer(!holdingHammer);
+            }}
+            animate
+            Cyberpunk
+            show={smashable}
+            level={0}
+          >
+            {anim => (
+              <Words animate show={anim.entered}>
+                {holdingHammer
+                  ? "Disable Hacking Tool"
+                  : "Activate Hacking Tool"}
+              </Words>
+            )}
+          </SFButton>
+        </div>
+
+        <div className={`enter-btn-wrapper ${smashable ? "unclickable" : ""}`}>
+          <SFButton
+            onClick={() => {
+              setShowRed(true);
+              setSpawnReady(false);
+            }}
+            animate
+            Cyberpunk
+            show={spawnReady && !loading}
+            level={0}
+          >
+            {anim => (
+              <Words animate show={anim.entered}>
+                Establish Connection
+              </Words>
+            )}
+          </SFButton>
+        </div>
+      </div>
+
+      <div className="audio container">
+        <audio autoPlay={false} className="hidden-audio typing-sound">
+          <source src={typing}></source>
+        </audio>
+
+        <audio autoPlay={false} className="hidden-audio glass-breaking-sound">
+          <source src={glass_breaking}></source>
+        </audio>
+
+        <audio autoPlay={false} className="hidden-audio machine-broken-sound">
+          <source src={machine_broken}></source>
+        </audio>
+
+        {hitAudios}
       </div>
     </>
   );

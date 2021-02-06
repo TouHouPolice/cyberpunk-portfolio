@@ -42,3 +42,8 @@ export const green_n = require("../static/images/landing/letters/green_n.svg");
 export const green_r = require("../static/images/landing/letters/green_r.svg");
 export const green_s = require("../static/images/landing/letters/green_s.svg");
 export const green_t = require("../static/images/landing/letters/green_t.svg");
+
+export const hole_png = require("../static/images/landing/hole.png");
+export const screen_png = require("../static/images/landing/screen.png");
+export const hammer_png = require("../static/images/landing/hammer.png");
+export const hammer_small_png = require("../static/images/landing/hammer_small.png");
