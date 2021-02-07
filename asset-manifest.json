@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/cyberpunk-portfolio/static/css/main.97a60f0a.chunk.css",
-    "main.js": "/cyberpunk-portfolio/static/js/main.cd58c843.chunk.js",
-    "main.js.map": "/cyberpunk-portfolio/static/js/main.cd58c843.chunk.js.map",
+    "main.js": "/cyberpunk-portfolio/static/js/main.b4a19dc2.chunk.js",
+    "main.js.map": "/cyberpunk-portfolio/static/js/main.b4a19dc2.chunk.js.map",
     "runtime-main.js": "/cyberpunk-portfolio/static/js/runtime-main.d48bda5e.js",
     "runtime-main.js.map": "/cyberpunk-portfolio/static/js/runtime-main.d48bda5e.js.map",
     "static/css/2.18ce6afa.chunk.css": "/cyberpunk-portfolio/static/css/2.18ce6afa.chunk.css",
-    "static/js/2.ba49f754.chunk.js": "/cyberpunk-portfolio/static/js/2.ba49f754.chunk.js",
-    "static/js/2.ba49f754.chunk.js.map": "/cyberpunk-portfolio/static/js/2.ba49f754.chunk.js.map",
+    "static/js/2.2508e823.chunk.js": "/cyberpunk-portfolio/static/js/2.2508e823.chunk.js",
+    "static/js/2.2508e823.chunk.js.map": "/cyberpunk-portfolio/static/js/2.2508e823.chunk.js.map",
     "index.html": "/cyberpunk-portfolio/index.html",
-    "precache-manifest.a5ba98c7c595a2508338bd0300922717.js": "/cyberpunk-portfolio/precache-manifest.a5ba98c7c595a2508338bd0300922717.js",
+    "precache-manifest.5747008074d69c679b28ee8b0b933288.js": "/cyberpunk-portfolio/precache-manifest.5747008074d69c679b28ee8b0b933288.js",
     "service-worker.js": "/cyberpunk-portfolio/service-worker.js",
     "static/css/2.18ce6afa.chunk.css.map": "/cyberpunk-portfolio/static/css/2.18ce6afa.chunk.css.map",
     "static/css/main.97a60f0a.chunk.css.map": "/cyberpunk-portfolio/static/css/main.97a60f0a.chunk.css.map",
-    "static/js/2.ba49f754.chunk.js.LICENSE.txt": "/cyberpunk-portfolio/static/js/2.ba49f754.chunk.js.LICENSE.txt",
+    "static/js/2.2508e823.chunk.js.LICENSE.txt": "/cyberpunk-portfolio/static/js/2.2508e823.chunk.js.LICENSE.txt",
     "static/media/0.JPG": "/cyberpunk-portfolio/static/media/0.24f66e8a.JPG",
     "static/media/1.JPG": "/cyberpunk-portfolio/static/media/1.6c057913.JPG",
     "static/media/10.JPG": "/cyberpunk-portfolio/static/media/10.4c48fce9.JPG",
@@ -79,8 +79,8 @@
   "entrypoints": [
     "static/js/runtime-main.d48bda5e.js",
     "static/css/2.18ce6afa.chunk.css",
-    "static/js/2.ba49f754.chunk.js",
+    "static/js/2.2508e823.chunk.js",
     "static/css/main.97a60f0a.chunk.css",
-    "static/js/main.cd58c843.chunk.js"
+    "static/js/main.b4a19dc2.chunk.js"
   ]
 }
