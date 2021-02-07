@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/cyberpunk-portfolio/static/css/main.97a60f0a.chunk.css",
-    "main.js": "/cyberpunk-portfolio/static/js/main.4411cdd4.chunk.js",
-    "main.js.map": "/cyberpunk-portfolio/static/js/main.4411cdd4.chunk.js.map",
+    "main.js": "/cyberpunk-portfolio/static/js/main.cd58c843.chunk.js",
+    "main.js.map": "/cyberpunk-portfolio/static/js/main.cd58c843.chunk.js.map",
     "runtime-main.js": "/cyberpunk-portfolio/static/js/runtime-main.d48bda5e.js",
     "runtime-main.js.map": "/cyberpunk-portfolio/static/js/runtime-main.d48bda5e.js.map",
     "static/css/2.18ce6afa.chunk.css": "/cyberpunk-portfolio/static/css/2.18ce6afa.chunk.css",
     "static/js/2.ba49f754.chunk.js": "/cyberpunk-portfolio/static/js/2.ba49f754.chunk.js",
     "static/js/2.ba49f754.chunk.js.map": "/cyberpunk-portfolio/static/js/2.ba49f754.chunk.js.map",
     "index.html": "/cyberpunk-portfolio/index.html",
-    "precache-manifest.e21a4ff80100760eae0e9e70bab29558.js": "/cyberpunk-portfolio/precache-manifest.e21a4ff80100760eae0e9e70bab29558.js",
+    "precache-manifest.a5ba98c7c595a2508338bd0300922717.js": "/cyberpunk-portfolio/precache-manifest.a5ba98c7c595a2508338bd0300922717.js",
     "service-worker.js": "/cyberpunk-portfolio/service-worker.js",
     "static/css/2.18ce6afa.chunk.css.map": "/cyberpunk-portfolio/static/css/2.18ce6afa.chunk.css.map",
     "static/css/main.97a60f0a.chunk.css.map": "/cyberpunk-portfolio/static/css/main.97a60f0a.chunk.css.map",
@@ -81,6 +81,6 @@
     "static/css/2.18ce6afa.chunk.css",
     "static/js/2.ba49f754.chunk.js",
     "static/css/main.97a60f0a.chunk.css",
-    "static/js/main.4411cdd4.chunk.js"
+    "static/js/main.cd58c843.chunk.js"
   ]
 }
