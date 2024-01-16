@@ -91,6 +91,22 @@ export const projects = [
     video: "https://www.youtube.com/embed/3jSo7N1bKe8?si=ggMaqIzzBQ8Mc1iR",
   },
   {
+    name: "Bounding volume hierarchy demo",
+    shortName: "BVH Demo",
+    desc: `A demo featuring how to use bouding volume hierarchy for rendering optimization. Three methods are implemented: Topdown, Insert and bottomup.`,
+    images: [
+    ],
+    video: "https://www.youtube.com/embed/0r880dkAshw?si=zqtlYzifPsRtLrv9",
+  },
+  {
+    name: "Octree demo",
+    shortName: "Octree Demo",
+    desc: `A demo featuring how to use Octree to optimize physics simulations by reducing the number of collision checks needed`,
+    images: [
+    ],
+    video: "https://www.youtube.com/embed/xpfSwbC3-gY?si=fXw_SU00MQFmoux-",
+  },
+  {
     name: "The Char Kway Tewo Legacy Virtual Tour",
     shortName: "Charity Virtual Tour (PRE-UNI)",
     desc: "The Char Kway Teow Legacy Virtual Tour was one of the virtual tours I developed under HOL Experiences. The theme of the virtual tour was about giving. There are a lot of interactive and visual elements added into the virtual tours, like minigames, javascript physics and 3D graphics. The 3D space was created with Matterport. All the programming was done by me, including front-end, back-end and server management.",
