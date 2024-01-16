@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+import { Switch, Route, HashRouter as Router } from "react-router-dom";
 import {
   Loading,
   Words,
