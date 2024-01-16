@@ -155,7 +155,7 @@ export default function Experiences(props) {
                       <p>
                         <Words
                           layer="secondary"
-                          className="text-uppercase"
+                          className=""
                           animate
                           show={anim.entered}
                         >

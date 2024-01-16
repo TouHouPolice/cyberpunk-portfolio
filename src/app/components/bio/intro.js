@@ -6,6 +6,8 @@ import { Words, Frame } from "arwes";
 
 export default function Intro(props) {
   const { show, content } = props;
+  const linesArray = content.split('\n');
+
 
   return (
     <Row className="pr-3 pt-3 pb-3">
@@ -18,12 +20,14 @@ export default function Intro(props) {
                   Introduction:
                 </Words>
               </h3>
-              <p>
-                <Words animate show={anim.entered}>
-                  {content}
+
+              {linesArray.map((line, index) => (
+                <Words key={index} animate show={anim.entered}>
+                  {line}
                 </Words>
-              </p>
-            </div>
+              ))}
+
+              </div>
           )}
         </Frame>
       </Col>

@@ -7,6 +7,7 @@ export default function SkillBox(props) {
 
   return (
     <Frame
+      className = "mt-3"
       level={0}
       layer="secondary"
       noBackground={true}

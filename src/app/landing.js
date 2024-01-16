@@ -532,6 +532,7 @@ export default function Landing() {
     }
     setConstrainedBodies(bodies);
   }
+  
 
   function playHitSound() {
     const audios = document.querySelectorAll(".hit-sound");
@@ -545,6 +546,14 @@ export default function Landing() {
       }
     }
   }
+
+
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkIsMobile = () => {
+      const isMobileQuery = window.matchMedia('(max-width: 767px)');
+      setIsMobile(isMobileQuery.matches);
+    }},[]);
 
   useEffect(() => {
     if (engine === undefined) {
@@ -588,7 +597,7 @@ export default function Landing() {
     };
   }, [showGreen]);
 
-  if (toProfile) {
+  if (isMobile || toProfile) {
     // setToProfile(false);
     return <Redirect to="/profile/overview"></Redirect>;
   }
