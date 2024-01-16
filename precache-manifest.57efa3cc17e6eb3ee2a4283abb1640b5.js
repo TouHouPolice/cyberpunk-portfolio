@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1e45fba96e05a745b31cc58bd6c58435",
+    "revision": "c052c6b68f316ea77d976c0a2cac5752",
     "url": "/cyberpunk-portfolio/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cyberpunk-portfolio/static/css/2.247daf79.chunk.css"
   },
   {
-    "revision": "e4f33a18640ff55688e3",
+    "revision": "11a5e79e842d897b253e",
     "url": "/cyberpunk-portfolio/static/css/main.d8c523b4.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cyberpunk-portfolio/static/js/2.97d1ee01.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e4f33a18640ff55688e3",
-    "url": "/cyberpunk-portfolio/static/js/main.0e19bd5b.chunk.js"
+    "revision": "11a5e79e842d897b253e",
+    "url": "/cyberpunk-portfolio/static/js/main.ad9eebfa.chunk.js"
   },
   {
     "revision": "68e9a3d5d3b9189ab30a",
