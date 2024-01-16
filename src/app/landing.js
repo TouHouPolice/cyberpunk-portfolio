@@ -389,9 +389,9 @@ export default function Landing() {
     var scale = 1;
 
     if (frameWidth < 1000) {
-      scale = 0.75;
+      scale = 0.55;
     } else if (frameWidth < 500) {
-      scale = 0.5;
+      scale = 0.25;
     }
 
     letterRadius *= scale;
@@ -411,9 +411,9 @@ export default function Landing() {
       currentX = bounds.left + (frameWidth - totalLength) / 2;
       currentY = window.innerHeight / 2 - lineGap * 0.5 + i * lineGap;
 
-      console.log(bounds.left);
-      console.log(frameWidth);
-      console.log(totalLength / 2);
+      // console.log(bounds.left);
+      // console.log(frameWidth);
+      // console.log(totalLength / 2);
 
       for (var j = 0; j < words[i].length; j++) {
         // console.log(currentX);
@@ -519,8 +519,9 @@ export default function Landing() {
                 var y = maxForce * (Math.random() < 0.5 ? -1 : 1);
 
                 Body.applyForce(body, body.position, Vector.create(x, y));
+                Body.set(body,'layer',2);
                 bodies.splice(i, 1);
-
+                
                 setNoOfEjected(noOfEjectedRef.current + 1);
 
                 break;
