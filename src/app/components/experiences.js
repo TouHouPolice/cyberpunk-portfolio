@@ -49,7 +49,7 @@ export default function Experiences(props) {
                             animate
                             show={anim.entered}
                           >
-                            {jobs[0].company}
+                            {jobs[index].company}
                           </Words>
                         </h2>
                       </Header>

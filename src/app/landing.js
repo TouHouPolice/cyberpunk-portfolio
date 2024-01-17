@@ -690,6 +690,24 @@ export default function Landing() {
             )}
           </SFButton>
         </div>
+
+        <div className="skip-btn">
+        <SFButton
+            onClick={() => {
+              setToProfile(true)
+            }}
+            animate
+            Cyberpunk
+            show={!loading}
+            level={0}
+          >
+            {anim => (
+              <Words animate show={anim.entered}>
+                Skip
+              </Words>
+            )}
+          </SFButton>
+        </div>
       </div>
 
       <div className="audio container">
