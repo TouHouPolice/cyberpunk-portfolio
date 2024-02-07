@@ -47,7 +47,7 @@ export const projects = [
     
     The project is still ongoing...`,
     images:[],
-    video: "https://www.youtube.com/embed/ZhdJroK0hs0?si=0LkAOqG7isEMFLMw",
+    video: "https://www.youtube.com/embed/FgSynxVs4bs?si=XhN5IC9JV2amC4Po",
   },
   {
     name: "2D Game Engine - Primordial",
