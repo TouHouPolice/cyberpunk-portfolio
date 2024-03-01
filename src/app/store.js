@@ -22,7 +22,7 @@ export const jobs = [
     title: "web developer",
     desc: "Develop and maintain websites that feature physical-space-based virtual tours that aim to bring unique virtual experiences.",
     startDate: "2020.08.01",
-    endDate: "2020.07.31",
+    endDate: "2021.07.31",
     link: "https://www.hol.sg/"
   },
   {
